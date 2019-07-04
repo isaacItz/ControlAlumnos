@@ -1,0 +1,29 @@
+INSTITUTO TECNOLÓGICO DE ZITÁCUARO
+SUBDIRECCIÓN ACADÉMICA
+Lista de Asistencia
+Departamento:DEPARTAMENTO DE SISTEMAS Y COMPUTACION Folio: ---
+Materia: TOPICOS AVANZADOS DE PROGRAMACION Clave: ISC0403
+Profesor: JIMENEZ MEZA JOSE ALFREDO Grupo: 4M
+Periodo: ENERO - JUNIO/2019 Alumnos: 20
+# Nº Control Nombre del Alumno Tipo Evaluación
+1 17650005 Acosta Duran Gina Jazmin Curso normal
+2 17650006 Aguilar Gutierrez Saul Andre Curso normal
+3 17650008 Arroyo Bucio Luis Angel Curso normal
+4 17650010 Avila Garcia Axel Bryan Curso normal
+5 17650011 Avila Nolasco Miriam Paulina Curso normal
+6 17650013 Blancas Rivera Ivan Curso normal
+7 17650014 Camacho Hernandez Jose Omar Curso normal
+8 17650016 Colin Zuñiga Luis Alberto Curso normal
+9 17650021 Espinosa Roy Maria Daniela Curso normal
+10 17650025 Garduño Avila Estefania Curso normal
+11 17650027 Garnica Patricio Mariana Curso normal
+12 17650032 Gonzalez Cruz Jorge Miguel Curso normal
+13 17650045 Lopez Valencia Samuel Uriel Curso normal
+14 17650046 Lujano Davalos Ylce Ivett Curso normal
+15 17650047 Luna Velazquez Ana Karen Curso normal
+16 17650049 Marin Sereno Daniel Curso normal
+17 17650052 Miranda Cruz Brenda Curso normal
+18 17650066 Reyes Dominguez Eduardo Curso normal
+19 17650079 Silva Escutia Edwin Jesus Curso normal
+20 17650083 Valdespino Lugo Isaac Curso normal
+1 / 1
