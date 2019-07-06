@@ -69,6 +69,25 @@ public class TablaDocente extends Tabla<Docente> {
 		return null;
 	}
 
+	public Docente getPrimero() {
+		String slq = "Select * from Docente limit 1";
+
+		try {
+			statement = conexion.prepareStatement(slq);
+			ResultSet rs = statement.executeQuery();
+			Docente a = new Docente();
+			rs.next();
+
+			a.setClave(rs.getString(1));
+			a.setNombre(rs.getString(2));
+			return a;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 	@Override
 	public boolean existe(Docente dato) {
 		String slq = "Select * from docente where nom_doc = '" + dato.getNombre() + "'";

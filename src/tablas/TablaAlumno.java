@@ -3,8 +3,11 @@ package tablas;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import modelo.Alumno;
+import modelo.GrupoMateria;
 
 public class TablaAlumno extends Tabla<Alumno> {
 
@@ -68,6 +71,30 @@ public class TablaAlumno extends Tabla<Alumno> {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	public Alumno[] getAlumnos(GrupoMateria gpo) {
+		sql = "select * from alumno where exists(select * from grupomatealum where cve_alum = alumno.cve_alum)";
+		if (gpo != null) {
+			sql += "where cve_alum in (select cve_alum from grupomatealum where cve_grumat = "
+					+ gpo.getClaveGrupoMateria() + ")";
+		}
+		try {
+			List<Alumno> lista = new ArrayList<Alumno>();
+			statement = conexion.prepareStatement(sql);
+			ResultSet rs = statement.executeQuery();
+			while (rs.next()) {
+				Alumno al = new Alumno();
+				al.setNoControl(rs.getString(1));
+				al.setNombre(rs.getString(2));
+				lista.add(al);
+			}
+			return lista.toArray(new Alumno[lista.size()]);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+
 	}
 
 	@Override

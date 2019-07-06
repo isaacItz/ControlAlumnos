@@ -3,7 +3,11 @@ package tablas;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
+import modelo.Alumno;
+import modelo.GrupoMateria;
 import modelo.GrupoMateriaAlumno;
 
 public class TablaGrupoMateriaAlumno extends Tabla<GrupoMateriaAlumno> {
@@ -53,7 +57,7 @@ public class TablaGrupoMateriaAlumno extends Tabla<GrupoMateriaAlumno> {
 	public GrupoMateriaAlumno buscar(GrupoMateriaAlumno dato) {
 
 		String slq = "select * from GrupoMateAlum where cve_alum = '" + dato.getClaveAlumno() + "' and cve_grumat = '"
-				+ dato.getClabeGpoMat();
+				+ dato.getClabeGpoMat() + "'";
 
 		try {
 			statement = conexion.prepareStatement(slq);
@@ -65,6 +69,28 @@ public class TablaGrupoMateriaAlumno extends Tabla<GrupoMateriaAlumno> {
 			a.setClaveAlumno(rs.getString(2));
 			a.setClabeGpoMat(rs.getString(3));
 			return a;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public GrupoMateria[] getGruposAlum(Alumno a) {
+		TablaGrupoMateria tablaGrupoMateria = new TablaGrupoMateria(conexion);
+		sql = "select * from grupomatealum where cve_alum = " + a.getNoControl();
+
+		try {
+			List<GrupoMateria> lista = new ArrayList<>();
+			statement = conexion.prepareStatement(sql);
+			ResultSet rs = statement.executeQuery();
+			while (rs.next()) {
+				GrupoMateria gp = new GrupoMateria();
+				gp.setClaveGrupoMateria(rs.getString(3));
+				gp = tablaGrupoMateria.getGrupoMateria(gp);
+				lista.add(gp);
+			}
+			return lista.toArray(new GrupoMateria[lista.size()]);
 
 		} catch (Exception e) {
 			e.printStackTrace();

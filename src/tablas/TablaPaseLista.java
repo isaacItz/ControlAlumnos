@@ -129,10 +129,12 @@ public class TablaPaseLista extends Tabla<PaseLista> {
 	}
 
 	public Long[] getAlumnosConFaltas(GrupoMateria gpo) {
-		sql = "select pla.cve_alum ,sum(pla.estatus_palisalu) asistencias from paselistaalumno pla where pla.cve_palis in (select cve_palis from paselista where cve_grumat = "
+		sql = "select* from alumno where cve_alum in (select cve_alum from (select pla.cve_alum ,sum(pla.estatus_palisalu) asistencias from paselistaalumno pla where pla.cve_palis in (select cve_palis from paselista where cve_grumat = "
 				+ gpo.getClaveGrupoMateria()
 				+ ") group by pla.cve_alum having asistencias <= (select count(*) - numero_de_faltas from paselista pa join faltasGrumat fgm on fgm.cve_grumat = pa.cve_grumat where pa.cve_grumat = "
-				+ gpo.getClaveGrupoMateria() + ")";
+				+ gpo.getClaveGrupoMateria()
+				+ ") )as x) or cve_alum in(select cve_alum from bajaalumno ba join grupomatealum g on g.cve_grumatalum = ba.cve_grumatalum where cve_grumat = "
+				+ gpo.getClaveGrupoMateria() + " )";
 		try {
 			statement = conexion.prepareStatement(sql);
 			ResultSet result = statement.executeQuery();

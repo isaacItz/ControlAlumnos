@@ -8,6 +8,15 @@ public class EstructuraLista {
 	private String clave;
 	private Grupo grupo;
 	private int alumnos;
+	private String departamento;
+
+	public String getDepartamento() {
+		return departamento;
+	}
+
+	public void setDepartamento(String departamento) {
+		this.departamento = departamento;
+	}
 
 	public EstructuraLista() {
 

@@ -151,6 +151,27 @@ public class TablaGrupoMateria extends Tabla<GrupoMateria> {
 		return null;
 	}
 
+	public GrupoMateria getGrupoMateria(GrupoMateria gpo) {
+
+		sql = "select * from grupomateria where cve_grumat = " + gpo.getClaveGrupoMateria();
+		try {
+			statement = conexion.prepareStatement(sql);
+			ResultSet rs = statement.executeQuery();
+			GrupoMateria a = new GrupoMateria();
+			if (rs.next()) {
+				a.setClaveGrupoMateria(rs.getString(1));
+				a.setNombreGrupo(rs.getString(2));
+				a.setCveMateria(rs.getString(3));
+				a.setCvePeriodo(rs.getInt(4));
+				return a;
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 	@Override
 	public boolean existe(GrupoMateria dato) {
 		String slq = "select * from grupomateria where nom_gru = '" + dato.getNombreGrupo() + "' and cve_mate = '"

@@ -3,6 +3,7 @@ package vista;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -14,14 +15,17 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.File;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -29,6 +33,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.RowFilter;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
@@ -42,6 +48,9 @@ import com.placeholder.PlaceHolder;
 
 import modelo.Criterio;
 import modelo.CriterioUnidad;
+import modelo.EstructuraLista;
+import modelo.GeneradorPDF;
+import modelo.Grupo;
 import modelo.GrupoMateria;
 import modelo.Materia;
 import modelo.Revision;
@@ -52,10 +61,6 @@ import tablas.TablaMateria;
 import tablas.TablaPaseLista;
 import tablas.TablaRevision;
 import tablas.TablaUnidad;
-import javax.swing.JTextField;
-import javax.swing.RowFilter;
-import javax.swing.ImageIcon;
-import java.awt.Dimension;
 
 public class BuscarEvaluaciones extends JPanel {
 
@@ -391,6 +396,39 @@ public class BuscarEvaluaciones extends JPanel {
 			}
 		});
 		textFieldBusq.setEnabled(false);
+
+		JPanel panel_10 = new JPanel();
+		panel_10.setBackground(new Color(153, 153, 153));
+		panel_8.add(panel_10, BorderLayout.NORTH);
+
+		JButton btnGenerarPdf = new JButton("Generar PDF");
+		btnGenerarPdf.setFont(new Font("Calibri", Font.BOLD, 10));
+		btnGenerarPdf.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Vector<?> data = modelo.getDataVector();
+				Object[][] dat = new Object[data.size()][];
+				for (int i = 0; i < data.size(); i++) {
+					Object[] je = ((Vector<?>) data.get(i)).toArray();
+					dat[i] = je;
+				}
+				EstructuraLista estruct = new EstructuraLista();
+				estruct.setDepartamento("DEPARTAMENTO DE SISTEMAS Y COMPUTACION");
+				estruct.setAlumnos(modelo.getRowCount());
+				estruct.setClave("dasfas");
+				estruct.setPeriodo(Vista.periodo);
+				Grupo g = new Grupo(grupoMateria.getNombreGrupo());
+				estruct.setGrupo(g);
+				estruct.setProfesor(Vista.docente);
+				estruct.setMateria(materia);
+				File archivo = new File("C:\\Users\\JORGE\\Desktop\\arcvhi.pdf");
+				String[] names = new String[modelo.getColumnCount()];
+				for (int i = 0; i < names.length; i++) {
+					names[i] = modelo.getColumnName(i);
+				}
+				GeneradorPDF.createPDF(dat, estruct, "Promedios Finales", archivo, names);
+			}
+		});
+		panel_10.add(btnGenerarPdf);
 		setSize(1100, 800);
 		initComponents();
 		eventoTecla(tabla);

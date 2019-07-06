@@ -25,11 +25,15 @@ import javax.swing.border.EmptyBorder;
 
 import modelo.Alumno;
 import modelo.BaseDatos;
+import modelo.Docente;
 import modelo.EstructuraLista;
 import modelo.Materia;
+import modelo.Periodo;
 import modelo.TablaLista;
 import modelo.Utileria;
+import tablas.TablaDocente;
 import tablas.TablaMateria;
+import tablas.Tablaperiodo;
 
 public class Vista extends JFrame {
 	/**
@@ -41,6 +45,8 @@ public class Vista extends JFrame {
 	private BaseDatos bd;
 	public static Font fuentePrincipal;
 	public static Image icon;
+	public static Docente docente;
+	public static Periodo periodo;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -75,7 +81,8 @@ public class Vista extends JFrame {
 		int okCxl = -2;
 		while (!bd.hacerConexion().equals("Exito")
 				&& !(okCxl == JOptionPane.CANCEL_OPTION || okCxl == JOptionPane.CLOSED_OPTION)) {
-			pf.grabFocus();
+			pf.requestFocus();
+			System.out.println(bd.hacerConexion());
 
 			okCxl = JOptionPane.showConfirmDialog(null, pf, "Contraseña del Manejador", JOptionPane.OK_CANCEL_OPTION,
 					JOptionPane.PLAIN_MESSAGE);
@@ -85,6 +92,12 @@ public class Vista extends JFrame {
 		if (okCxl == JOptionPane.CANCEL_OPTION || okCxl == JOptionPane.CLOSED_OPTION) {
 			System.exit(0);
 		}
+
+		Tablaperiodo tablaperiodo = new Tablaperiodo(bd.getConexion());
+		periodo = tablaperiodo.getPeriodoActual();
+		TablaDocente tablaDocente = new TablaDocente(bd.getConexion());
+		docente = tablaDocente.getPrimero();
+
 		fond = new Fondo("imgs/fon.jpg");
 		fond.setToolTipText("Instituto Tecnologico de Zitacuaro");
 		fond.setForeground(Color.WHITE);
@@ -122,6 +135,11 @@ public class Vista extends JFrame {
 		mntmMedianteArchivo.setBackground(new Color(0, 0, 0));
 
 		JMenuItem mntmBajaAlumno = new JMenuItem("Baja Alumno");
+		mntmBajaAlumno.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new DialogBajaAlum(bd.getConexion());
+			}
+		});
 		mntmBajaAlumno.setFont(fuentePrincipal);
 		mnRegistrar.add(mntmBajaAlumno);
 		mntmMedianteArchivo.addActionListener(x -> {
